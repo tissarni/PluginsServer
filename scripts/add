@@ -1,5 +1,10 @@
 #!/bin/bash
 
 
+GITURL=$1
+FOLDERNAME=${GITURL##*-}
 
-node /usr/src/app/plugins/helpers/add.js $1
+
+node /usr/src/app/plugins/helpers/add.js $1 ${FOLDERNAME}
+
+

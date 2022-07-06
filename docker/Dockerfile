@@ -13,4 +13,6 @@ RUN npm install --production
 COPY . .
 RUN chmod -R +x scripts
 RUN mv scripts/* /bin
+RUN apt-get update
+RUN apt-get install -y git
 CMD [ "node", "plugins/server.js" ]
