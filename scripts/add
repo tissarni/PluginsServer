@@ -1,0 +1,5 @@
+#!/bin/bash
+
+
+
+node /usr/src/app/plugins/helpers/add.js $1

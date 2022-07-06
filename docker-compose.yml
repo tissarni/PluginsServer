@@ -1,0 +1,18 @@
+version: "3.9"
+
+volumes:
+  plugins:
+    
+
+services:
+  plugins:
+    container_name: plugins_container
+    image: plugins
+    build: 
+      context: .
+      dockerfile: ./docker/Dockerfile
+    #volumes:
+    #  - plugins:/usr/src/app
+    ports:
+      - "3100:3100"
+    
