@@ -1,7 +1,7 @@
 version: "3.9"
 
-#volumes:
- # plugins:
+volumes:
+  plugins:
     
 
 services:
@@ -11,8 +11,6 @@ services:
     build: 
       context: .
       dockerfile: ./docker/Dockerfile
-    #volumes:
-    #  - plugins:/usr/src/app
     ports:
       - "3100:3100"
     
