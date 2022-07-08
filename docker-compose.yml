@@ -8,6 +8,7 @@ services:
   plugins:
     container_name: plugins_container
     image: plugins
+    privileged: true
     build: 
       context: .
       dockerfile: ./docker/Dockerfile
