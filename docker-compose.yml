@@ -12,6 +12,18 @@ services:
     build: 
       context: .
       dockerfile: ./docker/Dockerfile
-    ports:
-      - "3100:3100"
     
+  nginx: 
+    container_name: host_proxy
+    image: host
+    build: 
+      context: .
+      dockerfile: ./host/Dockerfile
+    
+    ports:
+      - 8080:80
+    
+
+
+
+  
