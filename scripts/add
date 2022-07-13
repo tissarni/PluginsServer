@@ -6,18 +6,7 @@ FOLDERNAME=${GITURL##*-}
 
 
 node /usr/src/app/plugins/helpers/add.js $1 ${FOLDERNAME}
-cd ${FOLDERNAME}
-docker build -t ${FOLDERNAME} .
 
-docker run \
-  --name ${FOLDERNAME} \
-  --restart unless-stopped \
-  -p 8004:8004 \
-  -e SERVER_PORT=8004 \
-  -e SERVER_PREFIX='/plugins/giphy' \
-  giphy
-
-  cd ..
 
 
 

@@ -10,7 +10,9 @@ fs.readFile("/usr/src/app/plugins.json", function (err, data) {
   }
 
   json.forEach((plugin) => {
-    console.log(`${counter} - ${plugin.name} from ${plugin.repository}`);
+    console.log(
+      `${counter} - ${plugin.name} from ${plugin.repository} on local port ${plugin.port}`
+    );
     counter++;
   });
 });

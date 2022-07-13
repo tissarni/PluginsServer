@@ -13,11 +13,13 @@ fs.readFile("/usr/src/app/plugins.json", function (err, data) {
     if (plugin.name === plugin_name) {
       existing = true;
       child_process.exec(
-        `cd ${plugin_name} && git pull origin main --rebase`,
+        `cd /usr/src/app && delete ${plugin_name} && add https://github.com/linagora/Twake-plugins-${plugin_name}`,
         (err) => {
           if (err) throw err;
 
-          console.log(`${plugin_name.toUpperCase()} is now updated`);
+          console.log(
+            `${plugin_name.toUpperCase()} is now updated, built, running and reachable from host on http://localhost:8080/plugins/${plugin_name}`
+          );
         }
       );
     }

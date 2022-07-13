@@ -1,0 +1,4 @@
+#!/bin/bash
+
+node /usr/src/app/plugins/helpers/start.js
+

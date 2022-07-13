@@ -12,18 +12,21 @@ fs.readFile("/usr/src/app/plugins.json", function (err, data) {
   json.forEach((plugin) => {
     if (plugin.name === plugin_name) {
       existing = true;
-      child_process.exec(`rm -fr ${plugin_name}`, (err) => {
-        if (err) throw err;
-        const new_json = json.filter((plugin) => plugin.name !== plugin_name);
-        fs.writeFile(
-          "/usr/src/app/plugins.json",
-          JSON.stringify({ plugins: new_json }),
-          (err) => {
-            if (err) throw err;
-            console.log(`${plugin_name.toUpperCase()} deleted`);
-          }
-        );
-      });
+      child_process.exec(
+        `docker stop ${plugin_name} && docker system prune -f -a --volumes && rm -fr ${plugin_name}`,
+        (err) => {
+          if (err) throw err;
+          const new_json = json.filter((plugin) => plugin.name !== plugin_name);
+          fs.writeFile(
+            "/usr/src/app/plugins.json",
+            JSON.stringify({ plugins: new_json }),
+            (err) => {
+              if (err) throw err;
+              console.log(`${plugin_name.toUpperCase()} deleted`);
+            }
+          );
+        }
+      );
     }
   });
   if (!existing) {
