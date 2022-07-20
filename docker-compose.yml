@@ -9,6 +9,7 @@ services:
     container_name: plugins_container
     image: plugins
     privileged: true
+   
     build: 
       context: .
       dockerfile: ./docker/Dockerfile
@@ -22,6 +23,13 @@ services:
     
     ports:
       - 8080:80
+
+networks: 
+  default: 
+    external: 
+      name: external-example 
+      
+
     
 
 

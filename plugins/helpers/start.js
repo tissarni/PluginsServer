@@ -18,7 +18,7 @@ fs.readFile("/usr/src/app/plugins.json", function (err, data) {
     (err) => {
       console.log(`Clean nginx container and rebuild`);
       child_process.exec(
-        `cd nginx && docker build -t nginx_host . && docker run --name nginx_host --restart unless-stopped -dp 8080:80 nginx_host && cd ..`,
+        `cd nginx && docker build -t nginx_host . && docker run --name nginx_host --network=test-net --restart unless-stopped -dp 8080:80  nginx_host && cd ..`,
         (err) => {
           if (err) throw err;
           console.log(
@@ -33,23 +33,35 @@ fs.readFile("/usr/src/app/plugins.json", function (err, data) {
 const generate_config = (json) => {
   var conf = `
     events {}
-
     http {
         server {
-    
+
         listen 80 default_server;
         listen [::]:80 default_server;
-    
+
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+
         location / {
             # First attempt to serve request as file, then
             # as directory, then fall back to displaying a 404.
-            try_files $uri $uri/ =406;
+            try_files $uri $uri/ =408;
         }
+
+        location /api {
+            #proxy_set_header X-Forwarded-Host $host
+            proxy_pass http://172.26.0.1:3000;
+        }
+ 
     `;
+
   json.forEach((plugin) => {
     conf += `
             location /plugins/${plugin.name} {
-                proxy_pass http://172.17.0.1:${plugin.port};
+                proxy_pass http://172.64.0.1:${plugin.port};
             }
         `;
   });
@@ -62,3 +74,5 @@ const generate_config = (json) => {
                 proxy_set_header Connection "upgrade";
                 proxy_set_header Host $host;
                 proxy_cache_bypass $http_upgrade;*/
+
+//                docker run -it --name nginx_host --restart unless-stopped -p 8080:80  --add-host host.docker.internal:host-gateway nginx_host bash

@@ -9,10 +9,13 @@ RUN apk add --update nodejs-current npm bash curl
 WORKDIR /usr/src/app
 
 COPY . .
+
+VOLUME /usr/src/app
 RUN chmod -R +x scripts
 RUN mv scripts/* /bin
 RUN apk update
 RUN apk add  git
+
 
 
 
